@@ -39,7 +39,7 @@
         <div class="offcanvas__nav__option">
             <a href="#" class="search-switch"><img src="{% static 'img/icon/search.png' %}" alt=""></a>
             <a href="{% url 'user_cart' %}"><img src="{% static 'img/icon/cart.png' %}" alt=""> <span>0</span></a>
-            <button><a class="text-dark" href="#login.html">Login</a></button>
+            <button><a class="text-dark" href="{% url 'user_logout'%}">Login</a></button>
 
         </div>
         <div id="mobile-menu-wrap"></div>
@@ -78,7 +78,7 @@
                         <a href="#" class="search-switch"><img src="{% static 'img/icon/search.png' %}" alt=""></a>
                         
                         <a href="{% url 'user_cart' %}"><img src="{% static 'img/icon/cart.png' %}" alt=""> <span>0</span></a>
-                        <button><a class="text-dark" href="{% url 'login' %}">Login</a></button>
+                        <button><a class="text-dark" href="{% url 'user_logout' %}">Login</a></button>
                      
                     </div>
                 </div>
