@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 
 # Create your views here.
 from django.shortcuts import render
@@ -7,6 +7,9 @@ from django.shortcuts import render
 def index(request):
     return render(request,'admin/adminindex.html')
 def admin_login(request):
+    if "admin_id" in request.session:
+        
+        return redirect (index)
     return render(request,'admin/adminlogin.html')
 def product_management(request):
     return render(request,'admin/Product_management.html')

@@ -75,3 +75,20 @@ class Accounts(AbstractUser):
     class meta:
         verbose_name = 'Account'
         verbose_name_plural = 'Accounts'
+
+class CustomerAdress(models.Model):
+    user            = models.ForeignKey(Accounts,on_delete=models.CASCADE,null = True)
+    first_name       = models.CharField(max_length=200)
+    last_name       = models.CharField(max_length=200)
+    email            = models.EmailField( max_length=254)
+    phone_number    = models.CharField(max_length=99)
+    house_name      = models.CharField(max_length=200, null = True)
+    street_name      = models.CharField(max_length=200, null = True)
+    city            = models.CharField(max_length=200, null = True)
+    state           = models.CharField(max_length=200, null = True)
+    country         = models.CharField(max_length=200, null = True)
+    post_code       = models.IntegerField( null = True)
+
+
+    def __str__(self):
+        return str(self.user)

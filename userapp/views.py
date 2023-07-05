@@ -2,7 +2,7 @@ from django.shortcuts import render
 
 from django.contrib import messages
 from django.shortcuts import redirect, render
-from accounts.models import Accounts
+from accounts .models import Accounts,CustomerAdress
 from django.contrib.auth import authenticate
 
 # Create your views here.
@@ -77,8 +77,10 @@ def user_signup(request):
                     return redirect(user_signup)
                 else:
                     item = Accounts.objects.create(
+                        first_name =first_name,
+                        last_name=last_name,
                         username = username, 
-                        email=email,
+                        email = email,
                         phone = phone_number,
                         password = password
                     )
@@ -93,8 +95,21 @@ def user_signup(request):
     return render(request,'user/signup.html')
 def user_cart(request):
     return render(request,'user/cart.html')
+
+
 def user_profile(request):
-    return render(request,'user/profile.html')
+    if 'user_id' in request.session:
+        user    = request.session['user_id']
+        user_id = Accounts.objects.get(username=user)
+        address = CustomerAdress.objects.filter(user = user_id)
+        
+        context = {
+            'id' : user_id,
+            'address' : address
+        }
+    else:
+        context = None
+    return render(request,'user/profile.html',context)
 def order(request):
     return render(request,'user/order.html')
 def forgot_password(request):
