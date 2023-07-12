@@ -82,11 +82,12 @@ def user_signup(request):
                         username = username, 
                         email = email,
                         phone = phone_number,
-                        password = password
+                      
                     )
                     item.set_password(password)
                     item.save()
                     request.session['user_id'] = username
+                    return redirect(index)
                 
         else:
             messages.error(request, '''Password must be same 
@@ -119,6 +120,41 @@ def user_logout(request):
         del request.session['user_id']
         return redirect(index)
     return render(request,'user/login.html')
+def add_address(request):
+    if request.method == "POST":
+        user         = request.session.get('user_id')
+        first_name   = request.POST['first_name']
+        last_name    = request.POST['last_name']
+        email        = request.POST['email']
+        phone_number = request.POST['phone_number']
+        house_name   = request.POST['house_name']
+        state        = "Kerala"
+        country      = "India"
+        street_name  = request.POST['street_name']
+        city         = request.POST['city']
+        post_code    = request.POST['post_code']
+        
+        item = CustomerAdress.objects.create(
+            first_name   = first_name,
+            last_name    = last_name,
+            email        = email,
+            phone_number = phone_number,
+            house_name   = house_name,
+            state        = state,
+            country      = country,
+            street_name  = street_name,
+            city         = city,
+            post_code    = post_code
+        )
+        
+        item.user = Accounts.objects.get(username =user)   
+        item.save()
+        return redirect(user_profile)   
+    return render(request,'user/add_address.html')
 
+def selectedView(request):
+    
+    
+    return render(request,'user/index.html')
 
 

@@ -44,7 +44,7 @@
                     </div>
                     <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <a href=""><button type="submit" class="btn btn-danger">Confirm</button></a>
+                    <a href="{% url 'user_logout' %}"><button type="submit" class="btn btn-danger">Confirm</button></a>
                     </div>
                 </div>
                 </div>
@@ -89,11 +89,11 @@
     </div>
 
     {% endfor %}
-    <a href=""><span class="btn btn-success btn-lg px-6 m-5">Add
+    <a href="{% url 'add_address' %}"><span class="btn btn-success btn-lg px-6 m-5">Add
         address</span></a>
     {% else %}
     <p class="pt-5"> You have no address</p> 
-    <a href=""><span class="btn btn-success btn-lg px-6 m-5">Add
+    <a href="{% url 'add_address' %}"><span class="btn btn-success btn-lg px-6 m-5">Add
         address</span></a>
 
     {% endif %}
