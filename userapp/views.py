@@ -157,4 +157,74 @@ def selectedView(request):
     
     return render(request,'user/index.html')
 
+def delete_address(request, id):
+    item = CustomerAdress.objects.get(id = id)
+    item.delete()
+    return redirect(user_profile)
 
+
+def edit_address(request,id):
+    item = CustomerAdress.objects.get(id = id)
+    if request.method == "POST":
+        item.first_name   = request.POST["first_name"]
+        item.last_name    = request.POST['last_name']
+        item.email        = request.POST['email']
+        item.phone_number = request.POST['phone_number']
+        item.house_name   = request.POST['house_name']
+        item.state        = 'kerala'
+        item.country      = 'india'
+        item.street_name  = request.POST['street_name']
+        item.city         = request.POST['city']
+        item.post_code    = request.POST['post_code']
+        
+        item.save()
+        return redirect(user_profile)
+    context = {
+        'item' : item
+    }
+    return render(request, 'user/edit_address.html',context)
+
+
+def profile_edit(request):
+        if 'user_id' in request.session:
+            user = request.session['user_id']
+            item = Accounts.objects.get(username=user)
+        
+            if request.method =='POST':
+                first_name   = request.POST['first_name']
+                email        = request.POST['email']
+                phone_number = request.POST['phone_number']
+                try:
+                    k=int(request.POST['phone_number'])
+                except:
+                    messages.error(request,"please enter a phone number")
+                    return redirect(profile_edit)
+                if first_name == ''  or email == '' or phone_number =='':
+                    messages.error(request,"name must not be empty")
+                    messages.error(request,"email must not be empty")
+                    messages.error(request,"phone number must not be empty")
+                    return redirect (profile_edit)
+                elif len(phone_number)!=10:
+                    messages.error(request,"please enter a valid number")
+                    return redirect(profile_edit)          
+                elif Accounts.objects.filter(phone=phone_number) :
+                    messages.error(request,"phone number already exists")
+                    return redirect(profile_edit)
+                elif Accounts.objects.filter(email=email):
+                    messages.error(request,"email already exists")
+                    return redirect(profile_edit)
+                else:
+                    item.first_name    = first_name
+                    item.phone         = phone_number
+                    item.email         = email
+                    item.save()
+                    return redirect(user_profile)
+  
+            else:
+                return render(request,'user/profile_edit.html', {'data' : item})
+
+
+def user_shop(request):
+    
+    
+    return render(request,'user/shop.html')

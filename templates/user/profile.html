@@ -10,7 +10,7 @@
             <table class="table">
                 <tr>
                     <th>Name</th>
-                    <td class="text-uppercase">{{ id.first_name }}  {{ id.last_name }}</td>
+                    <td class="text-uppercase">  {{ id.first_name }}</td>
                 </tr>
                 <tr>
                     <th>Phone</th>
@@ -21,15 +21,15 @@
                     <td>{{ id.email }}</td>
                 </tr>
             </table>
-            <a href=""><input type="text" class="btn btn-outline-primary" value="Edit" readonly></a>
+            <a href="{% url 'profile_edit' %}"><input type="text" class="btn btn-outline-primary" value="Edit" readonly></a>
         </div>
         <div class="col-lg-5">
         </div>
         <div class="col-lg-2 pt-5">
 
-            <p><a href="" class="text-decoration-none"><i class="bi bi-bag-check text-dark pe-2"></i>My orders</a></p>
+            <p><a href="" class="btn btn-outline-primary"><i class="bi bi-bag-check text-dark pe-2"></i>My orders</a></p>
             <!-- Button trigger modal -->
-            <p><a href="" class="btn btn-outline-primary" role="button" data-bs-toggle="modal" data-bs-target="#logoutuser"><i class="bi bi-box-arrow-left text-dark pe-2"></i>Logout</a></p>
+            <p><a class="btn btn-outline-primary" role="button" data-bs-toggle="modal" data-bs-target="#logoutuser"><i class="bi bi-box-arrow-left text-dark pe-2"></i>Logout</a></p>
 
             <!-- Modal -->
             <div class="modal fade" id="logoutuser" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -40,11 +40,11 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                    <p>Do you want to Logout  {{ id.username }}</p>
+                    <p>Do you want to Logout  {{ user.username }}</p>
                     </div>
                     <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <a href="{% url 'user_logout' %}"><button type="submit" class="btn btn-danger">Confirm</button></a>
+                    <a href="{% url 'user_logout' %}"><button type="button" class="btn btn-danger">Confirm</button></a>
                     </div>
                 </div>
                 </div>
@@ -54,15 +54,15 @@
 
     </div>
     <div class="row pb-5">
-        {% if addresses %}
-        {% for i in addresses %}
+        {% if address %}
+        {% for i in address %}
     <div class="col-sm-6 mt-3">
         <div class="card">
             <div class="card-body">
                 <h5 class="card-title">Address  {{ forloop.counter }}</h5>
                 <p class="ship-b__p">{{i.first_name}} {{i.last_name}} 
                     <br>{{i.house_name}} , {{i.street_name}}
-                    <br>{{i.city}} {{i.state}}<br> postal-code:{{i.post_code}}
+                    <br>{{i.city}}, {{i.state}}, {{i.country}}<br> postal-code:{{i.post_code}}
                 </p>
                 <button type="submit" class="btn  btn-outline-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteaddress-{{ i.id }}">Delete</button>
                 <!-- Modal -->
@@ -78,12 +78,12 @@
                         </div>
                         <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <a href=""><button type="button" class="btn btn-danger">Confirm</button></a>
+                        <a href="{% url 'delete_address' i.id %}"><button type="button" class="btn btn-danger">Confirm</button></a>
                         </div>
                     </div>
                     </div>
                 </div>
-                 <a class="btn  btn-outline-warning btn-sm ml-2 text-dark"  href="">Edit</a>
+                 <a class="btn  btn-outline-warning btn-sm ml-2 text-dark"  href="{% url 'edit_address' i.id %}">Edit</a>
             </div>
         </div>
     </div>
