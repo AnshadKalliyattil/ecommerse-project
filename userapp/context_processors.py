@@ -1,4 +1,5 @@
 from accounts.models import*
+from productapp.models import*
 def checkid(request):
     if 'user_id' in request.session:
         logi = request.session.get('user_id')
@@ -11,3 +12,4 @@ def checkid(request):
         }
     else:
         return {'id':None}
+ 

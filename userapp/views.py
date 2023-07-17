@@ -224,7 +224,19 @@ def profile_edit(request):
                 return render(request,'user/profile_edit.html', {'data' : item})
 
 
+def clothes(request):
+
+    return render(request,'user/clothes.html')
+
 def user_shop(request):
-    
-    
+
     return render(request,'user/shop.html')
+
+def accessories(request):
+
+    return render(request,'user/accessoies.html')
+
+def shoe(request):
+
+    return render(request,'user/shoe.html')
+

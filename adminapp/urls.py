@@ -12,4 +12,5 @@ urlpatterns = [
     path('order_mangemen',views.order_mangement,name='order_mangemen'),
     path('user_mangement',views. user_mangement,name=' user_mangement'),   
     path('add_product',views.add_product,name='add_product'),   
+    path('admin_logout',views.admin_logout,name='admin_logout'),  
 ]

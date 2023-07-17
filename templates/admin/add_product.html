@@ -1,93 +1,77 @@
-{% extends 'admin/adminbase.html' %}
-{% load static %}
+{% extends 'admin/adminbase.html'%}
 {% block content %}
-<div class="container">
-  
-    <section class="panel panel-default">
-  <div class="panel-heading"> 
-  <h3 class="panel-title">add product</h3> 
-  </div> 
-  <div class="panel-body">
-    
-  <form action="designer-finish.html" class="form-horizontal" role="form">
-  
-  <div class="form-group">
-      <label for="name" class="col-sm-3 control-label">Тип заказа</label>
-      <div class="col-sm-9">
-          <label class="radio-inline">
-        <input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1"> Внешный заказ
-      </label>
-      <label class="radio-inline">
-        <input type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2"> Внутренный заказ
-      </label>
-      </div>
-  </div> <!-- form-group // -->
-  
-     <div class="form-group">
-      <label for="name" class="col-sm-3 control-label">Буюртмачи</label>
-      <div class="col-sm-9">
-        <input type="text" class="form-control" name="name" id="name" placeholder="Исм ёки корхона номи">
-      </div>
-    </div> <!-- form-group // -->
-    <div class="form-group">
-      <label for="name" class="col-sm-3 control-label">Название продукта</label>
-      <div class="col-sm-9">
-        <input type="text" class="form-control" name="name" id="name" placeholder="Название">
-      </div>
-    </div> <!-- form-group // -->
-    <div class="form-group">
-      <label for="about" class="col-sm-3 control-label">Описание</label>
-      <div class="col-sm-9">
-        <textarea class="form-control"></textarea>
-      </div>
-    </div> <!-- form-group // -->
-    <div class="form-group">
-      <label for="qty" class="col-sm-3 control-label">Количество</label>
-      <div class="col-sm-3">
-     <input type="text" class="form-control" name="qty" id="qty" placeholder="шт.">
-      </div>
-    </div> <!-- form-group // -->
-    <div class="form-group">
-      <label class="col-sm-3 control-label">Сроки</label>
-      <div class="col-sm-3"> 
-        <label class="control-label small" for="date_start">Начало: </label>
-        <input type="text" class="form-control" name="date_start" id="date_start" placeholder="Начало">
-      </div>
-      <div class="col-sm-3">   
-        <label class="control-label small" for="date_finish">Конец:</label>
-        <input type="text" class="form-control" name="date_finish" id="date_finish" placeholder="Конец">
-      </div>
-    </div> <!-- form-group // -->
-    <div class="form-group">
-      <label for="name" class="col-sm-3 control-label">Загрузить</label>
-      <div class="col-sm-3">
-        <label class="control-label small" for="file_img">Картинка (jpg/png):</label> <input type="file" name="file_img">
-      </div>
-      <div class="col-sm-3">
-        <label class="control-label small" for="file_img">Файлы:</label>  <input type="file" name="file_archive">
-      </div>
-    </div> <!-- form-group // -->
-    <div class="form-group">
-      <label for="tech" class="col-sm-3 control-label">Технолог</label>
-      <div class="col-sm-3">
-     <select class="form-control">
-      <option value="">Выберите</option>
-      <option value="texnolog2">Технолог 2</option>
-      <option value="texnolog3">Технолог 3</option>
-     </select>
-      </div>
-    </div> <!-- form-group // -->
-    <hr>
-    <div class="form-group">
-      <div class="col-sm-offset-3 col-sm-9">
-        <button type="submit" class="btn btn-primary">Отправить</button>
-      </div>
-    </div> <!-- form-group // -->
-  </form>
-    
-  </div><!-- panel-body // -->
-  </section><!-- panel// -->
-  
-    
-  </div> <!-- container// -->
+<div class="app-wrapper ">   
+    <div class="app-content pt-3 p-md-3 p-lg-4">
+        <h1 class="text-center pb-3 fw-bold" >ADD PRODUCT</h1>
+        <form class="container" method="post" enctype="multipart/form-data" >
+          {% csrf_token %}
+            <div class="row">
+              <div class="col-md-6 my-3">
+                <label for="inputname" class="fw-bold">Product Name</label>
+                <input type="text" class="form-control" placeholder="product name" name="p_name">
+              </div>
+              <div class="col-md-6 my-3">
+                <label for="inputname" class="fw-bold">description</label>
+                <input type="text" class="form-control" placeholder="description" name="desc">
+              </div>
+              <div class="col-md-6 my-3">
+                <label for="inputname" class="fw-bold">price</label>
+                <input type="text" class="form-control" placeholder="price" name="price">
+              </div>
+              <div class="col-md-6 my-3">
+                <label for="inputname" class="fw-bold">stock</label>
+                <input type="text" class="form-control" placeholder="stock" name="stock">
+              </div>
+              <div class="col-md-6 my-3">
+                <label for="inputname" class="fw-bold">select category</label>
+                <select class="form-select" aria-label="Default select example" name="category">
+                    <option selected>Select One</option>
+                    {% for i in value %}
+                    <option value="{{i.category_name}}">{{i.category_name}}</option>
+                    {%endfor%}
+                </select>
+                <div class="form-group my-3">
+                    <label for="inputname" class="fw-bold">Brand</label>
+                    <input type="text" class="form-control mt-1" id="brand" name="brand"
+                        placeholder="brand ">
+                </div>
+                <div class="form-group my-3">
+                    <label for="input_product_status" class="fw-bold">product_status</label>
+                    <select class="form-select" aria-label="Default select example" name="product_status">
+                        <option selected value="True">True</option>
+                        <option value="False">False</option>
+                    </select>
+                </div>              </div>
+                <div class="form-group col-md-6 my-3">
+                    <label for="input_product_status" class="fw-bold mb-2">Upload Images</label><br>
+                    <span class="imageupload">Image1 : </span><input type="file" class="form-control my-2" name="uploadFromPC" id="id_product_image">
+                    <span class="imageupload">Image2 : </span><input type="file" class="form-control my-1" name="uploadFromPC1"
+                        id="id_product_image1">
+                    <span class="imageupload">Image3 : </span> <input type="file" class="form-control my-1" name="uploadFromPC2"
+                        id="id_product_image2">
+                </div>
+            </div>
+            {% for message in messages %}
+            <p><span class="text-danger">{{message}}</span></p>
+            {%endfor%}
+            <div class="col-md-12  mt-3 ">
+                <button type="submit" id="confirm-btn" class="btn btn-success btn-lg px-6">Submit</button>
+            </div>
+          </form>
+          <div class="mt-5">
+            <img id="image1" src="" alt="" style="width: 16rem; border: 1px solid #959090; margin-right: 30px;">
+            <img id="image2" src="" alt="" style="width: 16rem; border: 1px solid #959090; margin-right: 30px;">
+            <img id="image3" src="" alt="" style="width: 16rem; border: 1px solid #959090; margin-right: 30px;">
+            <div class="col-md-5 mt-5">
+                <div class="form-group">
+                    <div id="image-box" class="img-fluid"></div>
+                    <button class="btn btn-outline-info" id="crop-btn" style=" margin-top: 10px; display: none;"
+                        type="button">Crop</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
 {% endblock content %}

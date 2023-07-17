@@ -23,4 +23,5 @@ urlpatterns = [
     path('admindjango', admin.site.urls),
     path('',include('userapp.urls')),
     path('admin/',include('adminapp.urls')),
-    ]+ static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
+    
+]+ static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
