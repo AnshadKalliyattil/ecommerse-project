@@ -39,3 +39,33 @@ class Product(models.Model):
     class meta:
         verbose_name = 'Product'
         verbose_name_plural = 'Products'
+
+    @property
+    def get_product_price(self):
+        if self.product_offer == 0 and self.category.category_offer==0:
+            product_price = self.price
+        elif self.product_offer < self.category.category_offer:
+            product_price = self.price - float((self.price * self.category.category_offer)/100)
+        else:
+            product_price = self.price - float((self.price * self.product_offer)/100)
+        product_price = float(product_price)
+        return product_price
+
+        
+class Coupen(models.Model):
+    coupencode   = models.CharField( max_length=20, null = True,blank = True)
+    coupen_offer = models.IntegerField(null = True,blank=True,default=0)
+    is_active    = models.BooleanField(null=True, blank=True, default=True)
+    expiry_date  = models.DateField(null=True, blank=True)
+    users        = models.ManyToManyField(Accounts, blank=True)
+    
+    
+    def __str__(self):
+       return str(self.coupencode)
+
+
+@property
+def get_coupen_offer_price(self):
+    coupen_price = self.price - self.coupen_offer
+    return coupen_price
+

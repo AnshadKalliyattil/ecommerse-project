@@ -1,6 +1,6 @@
-{% extends 'admin/adminbase.html' %}
+{% extends 'admin/adminbase.html'%}
 
-{% block content%}
+{% block content %}
 {% load static %}
 
 <body id="page-top">
@@ -9,7 +9,7 @@
             <h1>CATEGORIES</h1>
         </div>
         <div class="text-end me-">
-          <a href=""><button type="submit" class="btn btn-outline-success btn-lg px-3 my-3">Add Category</button></a>
+          <a href="{% url 'add_category'%}"><button type="submit" class="btn btn-outline-success btn-lg px-3 my-3">Add Category</button></a>
         </div>
     <table id ="example" class="table pb-3">
         <thead>
@@ -32,9 +32,9 @@
                 <td>{{ i.description }}</td>
                 <td>
                     <a href="{% url 'editcategory' i.id %}">
-                        <button type="submit" class="btn btn-outline-primary btn-lg px-3">Edit</button>
-                    </a>
-                    <button type="submit" class="btn btn-outline-danger btn-lg px-3 ms-3" data-bs-toggle="modal" data-bs-target="#deletecategory-{{ i.id }}">Delete</button>
+                        <button type="submit" class="btn btn-outline-primary">Edit</button></a> 
+                    <a class="btn btn-outline-danger "data-bs-toggle="modal" data-bs-target="#deletecategory-{{ i.id }}">Delete</a>
+                    
                     <!-- Modal -->
                     <div class="modal fade" id="deletecategory-{{ i.id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog">
@@ -48,7 +48,7 @@
                             </div>
                             <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <a href=""><button type="button" class="btn btn-danger">Confirm</button></a>
+                            <a href="{% url 'deletecategory' i.id %}"><button type="button" class="btn btn-danger">Confirm</button></a>
                             </div>
                         </div>
                         </div>
@@ -64,4 +64,4 @@
     </div>
 </body>
 
-{% endblock content%}
+{% endblock content %}

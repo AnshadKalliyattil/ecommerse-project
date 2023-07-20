@@ -16,7 +16,4 @@ urlpatterns = [
     path('edit_address/<int:id>',views.edit_address,name='edit_address'),    
     path('profile_edit',views.profile_edit,name='profile_edit'),    
     path('user_shop',views.user_shop,name='user_shop'),    
-    path('clothes',views.clothes,name='clothes'),    
-    path('accessories',views.accessories,name='accessories'),    
-    path('shoe',views.shoe,name='shoe'),    
 ]

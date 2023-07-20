@@ -18,10 +18,14 @@
             <th scope="col">category</th>
             <th scope="col">price</th>
             <th scope="col">stock</th>
-            <th style="width: 180px;"></th>
+            <th ></th>
           </tr>
         </thead>
         <tbody>
+
+          {% if data %}
+          {% for i in data %}
+          
            
             <tr>
                 <td>{{ forloop.counter }}</td>
@@ -32,8 +36,8 @@
                 <td>{{ i.price }}</td>
                 <td>{{ i.stock }}</td>
                 <td>
-                  <a href="" class="btn btn-outline-primary">Edit</a>
-                  <a class="btn btn-outline-danger ms-5"data-bs-toggle="modal" data-bs-target="#deleteproduct-{{ i.id }}">Delete</a>
+                  <a href="{% url 'edit_product' i.id %}" class="btn btn-outline-primary">Edit</a>
+                  <a class="btn btn-outline-danger "data-bs-toggle="modal" data-bs-target="#deleteproduct-{{ i.id }}">Delete</a>
                   <!-- Modal -->
                   <div class="modal fade" id="deleteproduct-{{ i.id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
@@ -47,18 +51,18 @@
                         </div>
                         <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <a href=""><button type="button" class="btn btn-danger">Confirm</button></a>
+                        <a href="{% url 'deleteproduct' i.id %}"><button type="button" class="btn btn-danger">Confirm</button></a>
                         </div>
                     </div>
                     </div>
                 </div>
                 </td>
             </tr>
-            
+           {% endfor %}
         </tbody>
-        
+        {% else %}
         <h5>No products</h5>
-        
+        {% endif %}
       </table>
     </div>
     
