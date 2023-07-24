@@ -4,6 +4,8 @@ from django.contrib import messages
 from django.shortcuts import redirect, render
 from accounts .models import Accounts,CustomerAdress
 from django.contrib.auth import authenticate
+from productapp .models import Category,Product
+from cartapp .models import CartItem,Order,MyWishList
 
 # Create your views here.
 def index(request):
@@ -226,6 +228,107 @@ def profile_edit(request):
 
 
 def user_shop(request):
+     item     = Product.objects.all()
+     catogary_mangement = Category.objects.all()
+     context  = {
+        'data':item,
+        'catogary_mangement':catogary_mangement,
+    }
+     return render(request,'user/shop.html',context)
 
-    return render(request,'user/shop.html')
 
+def checkout(request):
+    
+    return render(request,'user/checkout.html')
+def cartadd(request):
+    if 'user_id' in request.session:
+        product_id   = request.POST.get('product-id')
+        quantity     = int(request.POST.get('product-quantity'))
+        product_var  = Product.objects.get(id = product_id)
+        user         = request.session.get('user_id')
+        item         = Accounts.objects.get(username =user)
+        id           = item.id
+        Order_qs     = Order.objects.filter(user_id = id ,orderd = False)
+        if Order_qs.exists():
+            order = Order_qs[0]
+            if order.items.filter(user_id = id ,product = product_var).exists():
+                order_item         =order.items.get(user_id = id, product =product_var)
+                order_item.quantity += quantity
+                order_item.save()
+                return redirect('/product_deatils/'+str(product_id))
+            else:
+                order_item = CartItem.objects.create(user_id=id, product = product_var, quantity=quantity)
+                order.items.add(order_item)
+                order.save()
+                return redirect('/product_deatils/'+str(product_id))
+            
+        else:
+            order      = Order.objects.create(user_id=id)
+            order_item = CartItem.objects.create(user_id=id, product=product_var, quantity=quantity)
+            order.items.add(order_item)
+            order.save()
+            return redirect('/product_deatils/'+str(product_id))
+    else:
+        product_id   = request.POST.get('product-id')
+        quantity     = int(request.POST.get('product-quantity'))
+        product_var  = Product.objects.get(id = product_id)
+        id           = request.session.session_key
+        order_qs     = Order.objects.filter(guest_user= id, orderd = False)
+        if order_qs.exists():
+            order = order_qs[0]
+            if order.items.filter( guest_user=id, product=product_var).exists():
+                order_item           = order.items.get( guest_user=id, product=product_var)
+                order_item.quantity += quantity
+                order_item.save()
+                return redirect('/product_deatils/'+str(product_id))
+            else:
+                order_item = CartItem.objects.create(guest_user=id, product = product_var, quantity=quantity)
+                order.items.add(order_item)
+                order.save()       
+                return redirect('/product_deatils/'+str(product_id))
+        else:
+            order      = Order.objects.create(guest_user=id)
+            order_item = CartItem.objects.create(guest_user=id, product=product_var, quantity=quantity)
+            order.items.add(order_item)
+            order.save()
+            return redirect('/product_deatils/'+str(product_id))
+
+
+def wishlistview(request):
+    if 'user_id' in request.session:
+        user    = Accounts.object.get(username = request.session.get('user_id'))
+        item    = MyWishList.objects.filter(username=user.id)
+        context = {
+            'data':item
+        }
+        return render(request, 'user/wishlist.html', context)
+    else:
+        messages.error(request, 'Login is required')
+        return redirect(user_login)
+    
+    
+def wishlistadd(request, id):
+    if 'user_id' in request.session:
+        user     = request.session.get('user_id')
+        user     = Accounts.object.get(username = user)
+        product  = Product.objects.get(id = id)
+        if MyWishList.objects.filter(username_id = user.id,product_id = product.id):
+            return redirect(user_shop)
+        if MyWishList.objects.filter(id=product.id).exists():
+            return redirect(user_shop)
+        else:
+            item = MyWishList.objects.create(username_id = user.id,product_id = product.id )
+            return redirect(user_shop)
+    else:
+        messages.error(request, 'Login is required')
+        return redirect(user_login)
+
+
+def wishlistitemdelete(request, id):
+    item = MyWishList.objects.get(id=id)
+    item.delete()
+    return redirect(wishlistview)
+
+def product_details(request,id):
+    item = Product.objects.get(id = id)
+    return render(request, 'user/productdetails.html',{'thisProdduct':item})

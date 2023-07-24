@@ -78,8 +78,14 @@
                 <div class="col-lg-3 col-md-3">
                     <div class="header__nav__option ">
                         <a href="#" class="search-switch"><img src="{% static 'img/icon/search.png' %}" alt=""></a>
-                        <a href="{% url 'user_cart' %}"><img src="{% static 'img/icon/cart.png' %}" alt=""> <span>0</span></a>
-
+                        <a class="nav-icon position-relative text-decoration-none" href="{% url 'user_cart' %}">
+                            <i class="fa fa-fw fa-cart-arrow-down text-dark mr-1"></i>
+                            <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark">{{ cart_count }}</span>
+                        </a>
+                        <a class="nav-icon position-relative text-decoration-none" href="{% url 'wishlist' %}">
+                            <i class="fa fa-fw fa-heart text-dark mr-1"></i>
+                            <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark">{{ wishlist_count }}</span>
+                        </a>
                         {% if id != None %}
                         <a class="nav-icon position-relative text-decoration-none nav-link" href="{% url 'user_profile' %}">
                              <span class="fw-bold text-uppercase text-dark">{{ id.username }}</span>

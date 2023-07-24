@@ -1,195 +1,89 @@
 {% extends 'user/userbase.html' %}
 {% load static %}
 {% block content %}
-<section style="background-color: #eee;">
-  <div class="text-center container py-5">
-    <h4 class="mt-4 mb-5"><strong>Bestsellers</strong></h4>
 
-    <div class="row">
-      <div class="col-lg-4 col-md-12 mb-4">
-        <div class="card">
-          <div class="bg-image hover-zoom ripple ripple-surface ripple-surface-light"
-            data-mdb-ripple-color="light">
-            <img src="https://mdbcdn.b-cdn.net/img/Photos/Horizontal/E-commerce/Products/belt.webp"
-              class="w-100" />
-            <a href="#!">
-              <div class="mask">
-                <div class="d-flex justify-content-start align-items-end h-100">
-                  <h5><span class="badge bg-primary ms-2">New</span></h5>
+<section class="h-100" style="background-color: #eee;">
+    <div class="container h-100 py-5">
+      <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col-10">
+  
+          <div class="d-flex justify-content-between align-items-center mb-4">
+            <h3 class="fw-normal mb-0 text-black">Shopping Cart</h3>
+          </div>
+          {% if cart_count != 0 %}
+          {% for thisProduct in order_object.items.all %}
+          <div class="card rounded-3 mb-4">
+            <div class="card-body p-4">
+              <div class="row d-flex justify-content-between align-items-center">
+                <div class="col-md-2 col-lg-2 col-xl-2">
+                  <a href="{% url 'userproduct' thisProduct.product.id %}"><img
+                    src="{{ thisProduct.product.image.url }}"
+                    class="img-fluid rounded-3" alt="Cotton T-shirt"></a>
+                </div>
+                <div class="col-md-3 col-lg-3 col-xl-3" ><a style="color: black ; text-decoration: none; text-transform:uppercase" href="{% url 'product_deatils' thisProduct.product.id %}">
+                  <p class="lead fw-normal mb-2">{{ thisProduct.product.product_name }}</p></a>
+                  <p class="lead fw-normal mb-2">{{ thisProduct.product.description }}</p>
+                  <p class="lead fw-normal mb-2 " style="text-transform:uppercase">brand: <span class="text-muted">{{ thisProduct.product.brand }}</span></p>
+
+                </div>
+                <div class="col-md-3 col-lg-3 col-xl-2 d-flex">
+                  <button class="btn btn-link px-2"
+                    onclick="this.parentNode.querySelector('input[type=number]').stepDown()">
+                    <i class="fas fa-minus"></i>
+                  </button>
+  
+                  <input id="form1" min="0" name="quantity" value="2" type="number"
+                    class="form-control form-control-sm" />
+  
+                  <button class="btn btn-link px-2"
+                    onclick="this.parentNode.querySelector('input[type=number]').stepUp()">
+                    <i class="fas fa-plus"></i>
+                  </button>
+                </div>
+                <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
+                  <h5 class="mb-0">₹ {{ thisProduct.product.price }}</h5>
+                </div>
+                <div class="col-md-1 col-lg-1 col-xl-1 text-end">
+                  <a href="#!" class="text-danger"><i class="fas fa-trash fa-lg" data-bs-toggle="modal" data-bs-target="#deleteitem-{{ thisProduct.id }}"></i></a>
+                <!-- Modal -->
+                <div class="modal fade" id="deleteitem-{{ thisProduct.id }}" tabindex="-1"
+                  aria-labelledby="exampleModalLabel" aria-hidden="true">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Confirmation</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <div class="modal-body">
+                        <p>Do you want to delete {{ thisProduct.product.product_name }}</p>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <a href=""><button type="button"
+                            class="btn btn-danger">Confirm</button></a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
                 </div>
               </div>
-              <div class="hover-overlay">
-                <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
-              </div>
-            </a>
+            </div>
           </div>
-          <div class="card-body">
-            <a href="" class="text-reset">
-              <h5 class="card-title mb-3">Product name</h5>
-            </a>
-            <a href="" class="text-reset">
-              <p>Category</p>
-            </a>
-            <h6 class="mb-3">$61.99</h6>
-          </div>
-        </div>
-      </div>
+          {% endfor %}
+          {% endif %}
 
-      <div class="col-lg-4 col-md-6 mb-4">
-        <div class="card">
-          <div class="bg-image hover-zoom ripple ripple-surface ripple-surface-light"
-            data-mdb-ripple-color="light">
-            <img src="https://mdbcdn.b-cdn.net/img/Photos/Horizontal/E-commerce/Products/img%20(4).webp"
-              class="w-100" />
-            <a href="#!">
-              <div class="mask">
-                <div class="d-flex justify-content-start align-items-end h-100">
-                  <h5><span class="badge bg-success ms-2">Eco</span></h5>
-                </div>
-              </div>
-              <div class="hover-overlay">
-                <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
-              </div>
-            </a>
+          <div class="float-end"><a href="{% url 'checkout' %}">
+            <button class="btn btn-success shadow-0 border">Proceed to Pay</button></a>
           </div>
-          <div class="card-body">
-            <a href="" class="text-reset">
-              <h5 class="card-title mb-3">Product name</h5>
-            </a>
-            <a href="" class="text-reset">
-              <p>Category</p>
-            </a>
-            <h6 class="mb-3">$61.99</h6>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-lg-4 col-md-6 mb-4">
-        <div class="card">
-          <div class="bg-image hover-zoom ripple" data-mdb-ripple-color="light">
-            <img src="https://mdbcdn.b-cdn.net/img/Photos/Horizontal/E-commerce/Products/shoes%20(3).webp"
-              class="w-100" />
-            <a href="#!">
-              <div class="mask">
-                <div class="d-flex justify-content-start align-items-end h-100">
-                  <h5><span class="badge bg-danger ms-2">-10%</span></h5>
-                </div>
-              </div>
-              <div class="hover-overlay">
-                <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
-              </div>
-            </a>
-          </div>
-          <div class="card-body">
-            <a href="" class="text-reset">
-              <h5 class="card-title mb-3">Product name</h5>
-            </a>
-            <a href="" class="text-reset">
-              <p>Category</p>
-            </a>
-            <h6 class="mb-3">
-              <s>$61.99</s><strong class="ms-2 text-danger">$50.99</strong>
-            </h6>
-          </div>
+          
+  
+          
+  
         </div>
       </div>
     </div>
+  </section>
 
-    <div class="row">
-      <div class="col-lg-4 col-md-12 mb-4">
-        <div class="card">
-          <div class="bg-image hover-zoom ripple" data-mdb-ripple-color="light">
-            <img src="https://mdbcdn.b-cdn.net/img/Photos/Horizontal/E-commerce/Products/img%20(23).webp"
-              class="w-100" />
-            <a href="#!">
-              <div class="mask">
-                <div class="d-flex justify-content-start align-items-end h-100">
-                  <h5>
-                    <span class="badge bg-success ms-2">Eco</span><span
-                      class="badge bg-danger ms-2">-10%</span>
-                  </h5>
-                </div>
-              </div>
-              <div class="hover-overlay">
-                <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
-              </div>
-            </a>
-          </div>
-          <div class="card-body">
-            <a href="" class="text-reset">
-              <h5 class="card-title mb-3">Product name</h5>
-            </a>
-            <a href="" class="text-reset">
-              <p>Category</p>
-            </a>
-            <h6 class="mb-3">
-              <s>$61.99</s><strong class="ms-2 text-danger">$50.99</strong>
-            </h6>
-          </div>
-        </div>
-      </div>
 
-      <div class="col-lg-4 col-md-6 mb-4">
-        <div class="card">
-          <div class="bg-image hover-zoom ripple ripple-surface ripple-surface-light"
-            data-mdb-ripple-color="light">
-            <img src="https://mdbcdn.b-cdn.net/img/Photos/Horizontal/E-commerce/Products/img%20(17).webp"
-              class="w-100" />
-            <a href="#!">
-              <div class="mask">
-                <div class="d-flex justify-content-start align-items-end h-100"></div>
-              </div>
-              <div class="hover-overlay">
-                <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
-              </div>
-            </a>
-          </div>
-          <div class="card-body">
-            <a href="" class="text-reset">
-              <h5 class="card-title mb-3">Product name</h5>
-            </a>
-            <a href="" class="text-reset">
-              <p>Category</p>
-            </a>
-            <h6 class="mb-3">$61.99</h6>
-          </div>
-        </div>
-      </div>
 
-      <div class="col-lg-4 col-md-6 mb-4">
-        <div class="card">
-          <div class="bg-image hover-zoom ripple" data-mdb-ripple-color="light">
-            <img src="https://mdbcdn.b-cdn.net/img/Photos/Horizontal/E-commerce/Products/img%20(30).webp"
-              class="w-100" />
-            <a href="#!">
-              <div class="mask">
-                <div class="d-flex justify-content-start align-items-end h-100">
-                  <h5>
-                    <span class="badge bg-primary ms-2">New</span><span
-                      class="badge bg-success ms-2">Eco</span><span class="badge bg-danger ms-2">-10%</span>
-                  </h5>
-                </div>
-              </div>
-              <div class="hover-overlay">
-                <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
-              </div>
-            </a>
-          </div>
-          <div class="card-body">
-            <a href="" class="text-reset">
-              <h5 class="card-title mb-3">Product name</h5>
-            </a>
-            <a href="" class="text-reset">
-              <p>Category</p>
-            </a>
-            <h6 class="mb-3">
-              <s>$61.99</s><strong class="ms-2 text-danger">$50.99</strong>
-            </h6>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-    
 {% endblock content %}
