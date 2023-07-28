@@ -1,58 +1,107 @@
 {% extends 'user/userbase.html' %}
 {% load static %}
 {% block content %}
-<section class="container py-5">
-    <div class="row text-center pt-3">
-        <div class="col-lg-6 m-auto">
-        </div>
-    </div>
-    {% if data %}
-        <div class="row d-flex justify-content-center">
-            {% for i in data %}
-                <div class="col-lg-3 col-md-4 col-sm-6 p-5 mt-3 products-index-items" style="position: relative;"> {% if i.stock != 0 %}
-                    {% if i.product_name not in wishlist %}
-                    <a href="{% url 'wishlistadd' i.id %}" onclick="wishlistadd()">
-                        <div class="d-flex justify-content-center wishlist">
-                            <i class="fa fa-light fa-heart"></i>
-                        </div>
-                    </a>
-                    {% else %}
-                    <a href="{% url 'wishlistadd' i.id %}" onclick="wishlistdelete()">
-                        <div class="d-flex justify-content-center wishlist">
-                            <i class="fa fa-light fa-heart" style="color:red;"></i>
-                        </div>
-                    </a>
-                    {% endif %}
-                    {% endif %}
 
-                    
-                        <a href=""><img src="{{ i.image.url }}" class="img-fluid border p-3"></a>
-                        <a href="" class="text-decoration-none">
-                        <span class="h5 mt-3 mb-3 text-dark">{{ i.product_name }}</span><br>
-                        {% if i.stock != 0 %}
-                        {% if i.product_offer != 0 or i.category.category_offer != 0 %}
-                        <span class="h3 text-decoration-none text-dark">₹  {{ i.get_product_price }}</span><br> 
-                        {% if i.product_offer > i.category.category_offer %}    
-                        <span class="fs-6 text-decoration-none text-secondary"><del>₹  {{ i.price }}</del> ({{ i.product_offer }} % Off)</span>
-                        {% else %}
-                        <span class="fs-6 text-decoration-none text-secondary"><del>₹  {{ i.price }}</del> ({{ i.category.category_offer }} % Off)</span>
-                        {% endif %}
-                        {% else %}
-                        <span class="h3 text-decoration-none text-dark">₹  {{ i.price }}</span>
-                        {% endif %}
-                        {% else %}
-                        <span class="h3 text-decoration-none text-danger">Out of stock!!</span>
-                        </a>
-                        {% endif %}
-                   
-                    </div>
-                 {% endfor %}    
-                        </div>
-                    {% else %}
-                        <div>
-                            <p>No products available!!</p>
-                        </div>
-                    {% endif %}
-                </section>
+    <section class="container py-5">
+        {% if selected %}
+        <div class="dropdown">
+            <a class="dropdown-toggle text-decoration-none text-dark" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Filter
+              </a>
+            <ul class="dropdown-menu"> 
+                <li><a class="dropdown-item" href="">Price Low to High</a></li>
+                <li><a class="dropdown-item" href="">Price High to Low</a></li>
+            </ul>
+        </div>
+        
+        
+        {% else %}
+        <div class="dropdown">
+            <a class="dropdown-toggle text-decoration-none text-dark" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Filter
+              </a>
+            <ul class="dropdown-menu"> 
+                <li><a class="dropdown-item" href="">Price Low to High</a></li>
+                <li><a class="dropdown-item" href="">Price High to Low</a></li>
+            </ul>
+        </div>
+        {% endif %}
+        <div>
+          <ul class="nav navbar-nav d-flex justify-content-between mx-lg-auto">
+            <li class="nav-link">
+              <div class="dropdown">
+                <a class="dropdown-toggle text-decoration-none text-dark" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                      Categories
+                    </a>
+                  <ul class="dropdown-menu">
+                  {% for i in category %}
+                  <li><a class="dropdown-item" href="{% url 'categoryfilter' i.category_name %}">{{ i.category_name }}</a></li>
+                  {% endfor %}
+                  </ul>
+                </div>
+            </li>
+            <li class="nav-item">
+            </li>
+            <li class="nav-item">
+            </li> 
+        </ul>
+        </div>
+        <div class="row text-center ">
+            <div class="col-lg-6 m-auto">
+                {% if selected %}
+                <h1 class="h2">{{ selected }}</h1>
+                {% else %}
+                <h1 class="h2">SHOP NOW</h1>
+                {% endif %}
+                
+            </div>
+        </div>
+
     
- {% endblock content%}
+      </section>
+
+<section>
+    {% if data %}
+    <div class="container my-5">
+      <header class="mb-4">
+        <h3>New products</h3>
+      </header>
+  
+      <div class="row">
+        {% for i in data %}
+        <div class="col-lg-3 col-md-4 col-sm-6 ">
+          <div class="card my-2 shadow-0" style="height: 400px; width: 250px ;">
+            <a href="{% url 'userproduct' i.id %}" class="">
+              <div class="mask" style="height: 50px;">
+                <div class="d-flex justify-content-start align-items-start h-100 m-2">
+                  <h6><span class="badge bg-danger pt-1">New</span></h6>
+                </div>
+              </div>
+              <img src="{{ i.image.url }}" class=" card-img-top rounded-2" style="margin-left: 1rem; height: 180px; width: 180px ; aspect-ratio: 1 / 1">
+            </a>
+            <div class="card-body p-0 p-3">
+            {% if i.product_name not in wishlist %}
+            <a href="{% url 'wishlistadd' i.id %}"   class="btn btn-light border px-2 pt-2 float-end icon-hover"><i class="fa fa-heart fa-lg px-1 text-secondary"></i></a>
+            {% else %}
+            <a href="{% url 'deletewishlistitem' i.id %}" class="btn btn-light border px-2 pt-2 float-end icon-hover"><i class="fa fa-heart fa-lg px-1 text-danger" ></i></a>
+            {% endif %}
+              <h5 class="card-title">₹  {{ i.price }}</h5>
+              <a class="text-decoration-none" href="{% url 'userproduct' i.id %}"><p class=" card-text mb-0">{{ i.product_name }}</p></a>
+              <p class="mt-2 text-muted">
+                {{ i.description }}
+              </p>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+        
+      </div>
+    </div>
+    {% else %}
+        <div>
+            <p>No products available!!</p>
+        </div>
+    {% endif %}
+  </section>
+
+{% endblock content%}

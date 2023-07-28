@@ -166,6 +166,7 @@ def add_category(request):
 def category_delete(request, id):
     item = Category.objects.filter(id=id)
     item.delete()
+    
     return redirect(catogary_mangement)
 
 def category_edit(request, id):
@@ -191,11 +192,10 @@ def category_edit(request, id):
 
 
 def product_delete(request, id):
-    item=Product.objects.get(id=id)
-    item.product_status = False
-    item.stock = 0
-    item.save()
-    return redirect(product_management)
+    if 'admin_id' in request.session:
+        item = Product.objects.filter(id = id)
+        item.delete()
+        return redirect(product_management)
 
 
 def product_edit(request,id):

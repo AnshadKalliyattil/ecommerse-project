@@ -2,7 +2,7 @@
 {% load static %}
 {% block content %}
 
-<section class="h-100" style="background-color: #eee;">
+<section class="container py-5" style="background-color: #eee;">
     <div class="container h-100 py-5">
       <div class="row d-flex justify-content-center align-items-center h-100">
         <div class="col-10">
@@ -20,7 +20,7 @@
                     src="{{ thisProduct.product.image.url }}"
                     class="img-fluid rounded-3" alt="Cotton T-shirt"></a>
                 </div>
-                <div class="col-md-3 col-lg-3 col-xl-3" ><a style="color: black ; text-decoration: none; text-transform:uppercase" href="{% url 'product_deatils' thisProduct.product.id %}">
+                <div class="col-md-3 col-lg-3 col-xl-3" ><a style="color: black ; text-decoration: none; text-transform:uppercase" href="{% url 'userproduct' thisProduct.product.id %}">
                   <p class="lead fw-normal mb-2">{{ thisProduct.product.product_name }}</p></a>
                   <p class="lead fw-normal mb-2">{{ thisProduct.product.description }}</p>
                   <p class="lead fw-normal mb-2 " style="text-transform:uppercase">brand: <span class="text-muted">{{ thisProduct.product.brand }}</span></p>
@@ -59,7 +59,7 @@
                       </div>
                       <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <a href=""><button type="button"
+                        <a href="{% url 'deletecartitem' thisProduct.id %}"><button type="button"
                             class="btn btn-danger">Confirm</button></a>
                       </div>
                     </div>
@@ -82,7 +82,7 @@
         </div>
       </div>
     </div>
-  </section>
+</section>
 
 
 

@@ -70,6 +70,7 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 'userapp.context_processors.checkid',
                 'userapp.context_processors.add_variable_to_context',
+                'userapp.context_processors.userdetails',
                 
             ],
         },
